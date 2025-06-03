@@ -1,5 +1,5 @@
 # M0207-TFM
-Repositorio M0207-TFM (Master Bioinformática, Bioestadística)
+Repositorio M0207-TFM (Master Bioinformática, Bioestadística UOC)
 Autora: Gemma Gariglio Viejo
 Proyecto en R con el pipeline para el analisis de DEGs, análisis
 funcional y correlación fenotípica correspondiente al trabajo fin
