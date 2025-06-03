@@ -89,26 +89,6 @@ throw_lmdme<-function(){
     # Extrae F.p.valores, p.values y coef del modelo
     fvals<-F.p.values(fit, term = term)
     
-    #coefs<-coef(fit, term = term)
-    #pvalor<-p.values(fit, term =term)
-    
-    # Crea una tabla con los coeficientes del modelo
-    #coefs_model<-coefs %>%
-    #  as.data.frame() %>%
-    #  rownames_to_column(var = "gene")
-    # Crea una tabla con los valores p del modelo
-    #pval_model <- pvalor %>%
-    #  as.data.frame() %>%
-    #  rownames_to_column(var = "gene")
-    
-    # Une las dos tablas anteriores
-    #genes_model_lmdme<-coefs_model %>%
-    #  inner_join(pval_model, by ="gene")
-    
-    #show_table_word(genes_model_lmdme, "lmdme", "Resultados del modelo", "genes_modelo")
-    
-    #assign("genes_model_lmdme",genes_model_lmdme, envir = .GlobalEnv )
-    
     id<-which(fvals< 0.05)
     
     fit_plsr<-fit
@@ -201,6 +181,7 @@ throw_lmdme<-function(){
     
     anno_row<-anota_row(genes_clusters_lmdme)
     
+    # LLama a la función que genera el heatmap
     heat_sig_lmdme<-get_heatmap_sig(scaled_matrix_lmdme_ord,
                                     anno_col_ord,
                                     anno_row,
