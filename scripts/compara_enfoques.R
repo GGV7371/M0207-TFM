@@ -1,8 +1,8 @@
 #######################################################################
 # Archivo: compara_enfoques.R
 # Descripción: Código de la opción 8 del menú
-# Autr: Gemma Gariglio Viejo
-# Fecha: 
+# Autora: Gemma Gariglio Viejo
+# Fecha: 02-03-2025
 # Dependencias: graphics.R
 #######################################################################
 

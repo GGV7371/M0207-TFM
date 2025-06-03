@@ -1,8 +1,8 @@
 ############################################################
 # Archivo: graphics.R
 # Descripción: Funciones para grear las visualizaciones
-# Autor: Gemma Gariglio Viejo
-# Fecha: [Fecha]
+# Autora: Gemma Gariglio Viejo
+# Fecha: 02-03-2025
 ############################################################
 
 source("R/utils.R")
@@ -421,6 +421,23 @@ get_boxplot_tukey_cld<-function(d_c, cl, cld, m){
   #       width = 12, height = 8, dpi = 300)
 }
 
+#==============================================================
+# Función: get_boxplot_tukey_cld_all_states
+# Descripción:  Genera un boxplot de la expresión media 
+# por cluster y etapa con letras de significancia
+#==============================================================
+
+#' Genera un boxplot de la expresión media por cluster
+#' después de hacer comparaciones basadas en ANOVA - Tukey 
+#' y lo guarda en un fichero en el directorio de resultados
+#' asigna letras de significancia
+#' 
+#' @param d_c_all matriz escalada conjunta de todos los clusteres
+#' @param cl identificador de cluster  
+#' @param cld_ald dataframe de letras de significancia
+#' @param m string con el tipo de enfoque
+#' @return No devuelve nada
+#' 
 get_boxplot_tukey_cld_all_states <- function(d_c_all, cl, cld_all, m) {
   library(ggplot2)
   library(dplyr)
@@ -448,6 +465,15 @@ get_boxplot_tukey_cld_all_states <- function(d_c_all, cl, cld_all, m) {
          plot = p, width = 12, height = 6)
 }
 
+#==============================================================
+# Función: get_dotplot
+# Descripción:  Genera un dotplot de los terminos enriquecidos
+#==============================================================
+
+#' @param e_g matriz escalada conjunta de todos los clusteres
+#' @param cl identificador de cluster  
+#' @param m string con el tipo de enfoque
+#' @return No devuelve nada
 
 get_dotplot <- function(e_g, cl,m){
   
@@ -463,6 +489,16 @@ get_dotplot <- function(e_g, cl,m){
   
 }
 
+#==============================================================
+# Función: get_barplot
+# Descripción:  Genera un barplot de los terminos enriquecidos
+#==============================================================
+
+#' @param e_g matriz escalada conjunta de todos los clusteres
+#' @param cl identificador de cluster  
+#' @param m string con el tipo de enfoque
+#' @return No devuelve nada
+
 get_barplot <- function(e_g, cl, m){
   gbarplot<-barplot(e_g,
                     showCategory = 15,
@@ -471,6 +507,16 @@ get_barplot <- function(e_g, cl, m){
     theme_minimal()
   ggsave(paste0("results/images/barplot_cluster_", cl,"-",m,".png"), plot=gbarplot)
 }
+
+#==============================================================
+# Función: get_vennplot
+# Descripción:  Genera un vennplot de los DEGs identificados en
+# cada enfoque
+#==============================================================
+
+#' @param v_l listas con los DEG de cada enfoque
+#' @return No devuelve nada
+#' 
 
 get_vennplot <- function(v_l){
   venn_plot <- venn.diagram(
@@ -489,6 +535,18 @@ get_vennplot <- function(v_l){
     cat.dist = 0.05
   )
 }
+
+#==============================================================
+# Función: get_heatmap_enricher
+# Descripción:  Genera un heatmap de los términos enriquecidos
+#==============================================================
+
+#' @param e_g matriz escalada conjunta de todos los clusteres
+#' @param cl identificador de cluster  
+#' @param m string con el tipo de enfoque
+#' @param tipo string con el tipo de termino (GoO o KEGG)
+#' @return No devuelve nada
+
 
 get_heatmap_enricher<-function(e_g, cl, m, tipo){
   
@@ -517,6 +575,21 @@ get_heatmap_enricher<-function(e_g, cl, m, tipo){
                          " (",m,")"),
            filename = paste0("results/images/heatmap_enrich_cluster",cl, "_", tipo, "_", m,".png"))
 }
+
+
+#==============================================================
+# Función: get_heatmap_enricher
+# Descripción:  Genera un heatmap de los términos enriquecidos
+#==============================================================
+
+#' @param e_g matriz escalada conjunta de todos los clusteres
+#' @param cl identificador de cluster 
+#' @param tipo string con el tipo de termino (GoO o KEGG) 
+#' @param top_terms integer con el maximo numero de términos a mostrar
+#' @param m string con el tipo de enfoque
+#' @param output_name string con parte del nombre del fichero
+
+#' @return No devuelve nada
 
 plot_dotplot_enrichment <- function(e_g, 
                                     cl,

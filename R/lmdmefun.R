@@ -1,25 +1,36 @@
+############################################################
+# Archivo: lmdmefun.R
+# Descripción: Funciones propias del enfoque LMDME
+# Autora: Gemma Gariglio Viejo
+# Fecha: 02-03-2025
+############################################################
+
+#==============================================================
+# Función: join_transcripts
+# Descripción:  Une los transcritos en un unico gen
+# en caso de que existan 
+#==============================================================
+
+#' Une los transcritos en un único gen
+#' en caso de que existan 
+#'
+#' @param logcl matriz de recuentos transformada
+#' @return dataframe 
+#' 
 join_transcripts <- function(logcl){
   ids<-as.character(rownames(logcl))
   ld <- 2^logcl #use the selected normalization
   AggData<-(aggregate(ld~(ids), FUN=sum))
   df<-as.data.frame(AggData[,-1])
   rownames(df)<-as.character(AggData[,1])
-  #--------------------------------------------------
-  # Filtration
-  #--------------------------------------------------
-  
-  #keep <- rowSums(df >= 10) >= 3
-  #df <- df[keep, ]
-  
-  #N<-10
-  #countsN<-apply(df,1,mean)
-  #nd<-df[countsN>=N,]
-  
+
   print(dim(df))
   
   return(df)
 }
 
+
+# FUNCIONES NO UTILIZADAS EN LA ULTIMA VERSION
 get_centrado_ctr <- function(df, m, id_col = "iden",
                              cond1 = "treatment", byc = "CTR",
                              cond2 = "stage") {
@@ -54,10 +65,6 @@ get_centrado_ctr <- function(df, m, id_col = "iden",
 
 
 get_loadings<-function(){
-  
-  # Asumiendo que ya tienes:
-  # modelo_lmdme: tu modelo ajustado
-  # modelo_decomp: resultado de decomposition(modelo_lmdme, method = "plsr")
   
   # Extraer loadings (pesos de los genes en la componente principal asociada al efecto)
   loadings <- modelo_decomp@loadings  # o modelo_decomp$loadings si es S3

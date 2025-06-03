@@ -472,8 +472,8 @@ get_table_cluster<-function(ms, g_c){
 # Descripción: 
 #==============================================================
 
-#'
-#' 
+#  Realiza pruebas ANOVA y Sidak para las compraciones con respecto 
+#' al control y les asigna letras de significancia
 #' @param c_a matriz escalada de expresión
 #' @param m cadena con el nombre del método utilizado
 #' @return lista de data frames
@@ -482,33 +482,43 @@ get_anova_tukey_by_state <- function(c_a, m) {
   library("emmeans")
   library("multcomp")
   
+  # define listas para utilizar más adelante
   tukey_list <- list()
   dominant_conditions <- list()
   d_c_all <- list()
   cld_all <- list()
   
-  # Extraer estados únicos (parte después de ":")
+  # Extraer las etapas únicas (parte después de ":")
   estados <- unique(c_a$stage)
   
-  for (estado in estados) {
+   # Para cada etapa
+   for (estado in estados) {
+    # filtra por etapa
     st_data <- c_a %>% filter(stage == estado)
+    # obtiene los identificadores unicos de los cluster
     clusters <- unique(st_data$cluster)
     
+    # para cada cluster
     for (cl in clusters) {
+      #filtra por cluster
       d_c <- st_data %>% filter(cluster == cl)
       
-      if (length(unique(d_c$trt_st)) < 2) next  # evitar clusters con solo un grupo
+      # Si no hay más de dos condiciones se sale del bucle
+      if (length(unique(d_c$trt_st)) < 2) next
       
+      # calcula anova y medias marginales
       aov_m <- aov(mean_expr ~ trt_st, data = d_c)
       emm <- emmeans(aov_m, ~ trt_st)
       
-      # Determinar control correspondiente a ese estado
+      # Determinar el control correspondiente a ese estado
       ref_ctrl <- paste0("CTR:", estado)
       if (!(ref_ctrl %in% levels(emm@grid$trt_st))) next
       
+      #realiza los contrastes
       contr <- contrast(emm, method = "trt.vs.ctrl", 
                         ref = which(levels(emm@grid$trt_st) == ref_ctrl))
 
+      #Crea el dataframe con los resultados
       tukey_r <- as.data.frame(contr) %>%
         mutate(group1 = ref_ctrl,
                group2 = str_trim(str_extract(contrast, "^[^-]+")),
@@ -516,11 +526,13 @@ get_anova_tukey_by_state <- function(c_a, m) {
                estado = estado) %>%
         dplyr::select(cluster, estado, group1, group2, estimate, p.value)
       
+      # crea una lista para cada cluster
       tukey_list[[paste(cl, estado, sep = "_")]] <- tukey_r
       
-      # Letras de significancia para boxplot
+      # Haya las letras de significancia para boxplot
       cld_r <- cld(emm, Letters = letters, adjust = "tukey")
       
+      # crea un dataframe con la comparación dominante
       dominant <- cld_r %>%
         as.data.frame() %>%
         arrange(desc(emmean)) %>%
@@ -541,6 +553,7 @@ get_anova_tukey_by_state <- function(c_a, m) {
     }
   }
   
+  # une todos los dataframe en una unica lista
   tukey_table <- bind_rows(tukey_list)
   dom_table <- bind_rows(dominant_conditions)
  
@@ -553,15 +566,17 @@ get_anova_tukey_by_state <- function(c_a, m) {
   write.csv(tukey_table, paste0("results/datafiles/tukey_contrasts_by_state_", m, ".csv"), row.names = FALSE)
   write.csv(dom_table, paste0("results/datafiles/dominant_conditions_by_state_", m, ".csv"), row.names = FALSE)
   
+  # genera un boxplot con todos los resultados
   for (cl in names(d_c_all)){
     get_boxplot_tukey_cld_all_states(d_c_all[[cl]], cl, cld_all[[cl]], m)
   }
   
+  # genera un dataframe con las letras asignadas
   letras_table <- bind_rows(cld_all, .id = "cluster") %>%
     dplyr::select(cluster, trt_st, emmean, SE, df, .group) %>%
     rename(letra = .group)
   
-  # Guardar tabla
+  # Guardar tabla de letras asignadas en un fichero
   write.csv(letras_table,
             paste0("results/datafiles/letras_significancia_clusters_", m, ".csv"),
             row.names = FALSE)
@@ -800,6 +815,10 @@ get_enrichment_by_significant_conditions <- function(genes_list,
   
 }
 
+#==============================================================
+# Función: get_compara_enrich
+# Descripción: compara los resultados de los dos enfoques
+#==============================================================
 
 get_compara_enrich<-function(tipo){
   
@@ -1052,6 +1071,19 @@ heatmap_pheno_enrich<-function(e_c, tipo, m){
                              "_fenotipos_", m, ".png"))
 }
 
+#==============================================================
+# Función: heatmap_pheno_enrich_cluster
+# Descripción: genera un heatmap de la correlaciónentre los 
+# terminos GO/KEGG y las variables fenotipicas
+#==============================================================
+
+#  Genera un heatmap de la correlaciónentre los 
+#  terminos GO/KEGG y las variables fenotipicas
+#' @param e_c dataframe con resultado de terminos enriquecidos
+#' @param tipo string con el tipo de termino (GO o KEGG)
+#' @param m cadena con el nombre del método utilizado
+#' @return lista de data frames
+#' 
 heatmap_pheno_enrich_cluster<- function(e_c, tipo, m) {
   pheno_summary <- pheno %>%
     group_by(trt_st) %>%

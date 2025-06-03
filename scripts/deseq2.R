@@ -1,6 +1,8 @@
 #######################################################################
 # Archivo: deseq2.R
 # Descripción: Código de la opción 3 del menú
+# Autora: Gemma Gariglio Viejo
+# Fecha: 02-06-2025
 # Dependencias: utils.R, procedrures.R, graphics.R
 #######################################################################
 

@@ -19,13 +19,10 @@ source("R/utils.R")
 #' - 'table_cluster_deseq': tabla de asignación de genes a clusters
 #' - 'annondb': base de anotaciones funcionales (GO, KEGG)
 #'
-#' Si existen lanza las funciones:
-#' - get_compare_cluster_go() para comparar términos GO entre clusters
-#' - get_compare_cluster_kegg() para comparar rutas metabólicas entre clusters
-#' - get_enricher_tukey_go() para encontrar términos GO en las comparaciones 
-#'   significativas
-#' - get_enricher_tukey_kegg() para encontrar rutas metabólicas en las 
-#'   comparaciones significativas
+#' Si existen lanza la funcion:
+#' - get_enrichment_by_significant_conditions() para encontrar términos GO/KEGG 
+#'   en las comparaciones significativas en función de los parametros
+#'   que se le pasan
 #' @return No devuelve ningún valor. Imprime mensajes de progreso y ejecuta 
 #' funciones de análisis.
 
@@ -38,61 +35,6 @@ throw_enricher_deseq2<-function(){
     cat("No se han cargado los ficheros para Analisis Funcional. Seleccione la opción 4...\n")
   }else {
     
-    #cat("Comparando terminos GO entre clusters...\n")
-    
-    # Compara términos GO entre clusters
-    #get_compare_cluster_go(table_cluster_deseq,"DESeq2")
-    
-    #cat("Comparando términos KEGG entre clusters...\n")
-    
-    # Compara términos KEGG entre clusters
-    #get_compare_cluster_kegg(table_cluster_deseq,"DESeq2")
-    
-    #cat("Buscando términos GO comparando con el control...\n")
-    
-    # Busca términos GO para las comparaciones significativas
-    #get_enricher_tukey_go(table_cluster_deseq, 
-    #                      tukey_deseq$tukey_table, 
-    #                      "CTR:embryo", 
-    #                      0.05, 
-    #                      "DESeq2")
-    #get_enricher_tukey_go(table_cluster_deseq, 
-    #                      tukey_deseq$tukey_table, 
-    #                      "CTR:unprovisioned_egg", 
-    #                      0.05, 
-    #                      "DESeq2")
-    #get_enricher_tukey_go(table_cluster_deseq, 
-    #                      tukey_deseq$tukey_table, 
-    #                      "CTR:provisioned_egg", 
-    #                      0.05, 
-    #                      "DESeq2")
-    
-    #cat("Buscando terminos KEGG comparando con el control...\n")
-    
-    # Busca rutas metabólicas para las comparaciones significativas
-   
-    #get_enricher_tukey_kegg(table_cluster_deseq, 
-    #                        tukey_deseq$tukey_table, 
-    #                        "CTR:embryo", 
-    #                        0.05, 
-    #                        "DESeq2")
-    #get_enricher_tukey_kegg(table_cluster_deseq, 
-    #                        tukey_deseq$tukey_table, 
-    #                        "CTR:unprovisioned_egg", 
-    #                        0.05, 
-    #                        "DESeq2")
-    #get_enricher_tukey_kegg(table_cluster_deseq, 
-    #                        tukey_deseq$tukey_table, 
-    #                        "CTR:provisioned_egg", 
-    #                        0.05, 
-    #                        "DESeq2")
-    
-    #cat("Buscando terminos KEGG para la condicion dominante en cada ...\n")
-    
-    #get_kegg_by_dominant_condition(table_cluster_deseq, 
-    #                               tukey_deseq$dom_table, 
-    #                               "DESeq2",
-    #                               "KEGG_dominant")
     
     cat("Buscando terminos GO por condicion significativa respecto al control...\n")
     enrich_conditions_GO_deseq<-get_enrichment_by_significant_conditions(genes_list_deseq,

@@ -19,13 +19,10 @@ source("R/utils.R")
 #' - 'table_cluster_lmdme': tabla de asignación de genes a clusters
 #' - 'annondb': base de anotaciones funcionales (GO, KEGG)
 #'
-#' Si existen lanza las funciones:
-#' - get_compare_cluster_go() para comparar términos GO entre clusters
-#' - get_compare_cluster_kegg() para comparar rutas metabólicas entre clusters
-#' - get_enricher_tukey_go() para encontrar términos GO en las comparaciones 
-#'   significativas
-#' - get_enricher_tukey_kegg() para encontrar rutas metabólicas en las 
-#'   comparaciones significativas
+#' Si existen lanza la funcion:
+#' - get_enrichment_by_significant_conditions() para encontrar términos GO/KEGG 
+#'   en las comparaciones significativas en función de los parametros
+#'   que se le pasan
 #' @return No devuelve ningún valor. Imprime mensajes de progreso y ejecuta 
 #' funciones de análisis.
 #' 

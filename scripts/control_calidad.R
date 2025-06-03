@@ -1,8 +1,8 @@
 #######################################################################
 # Archivo: control_calidad.R
 # Descripción: Código de la opción 2 del menú 
-# Autr: Gemma Gariglio Viejo
-# Fecha: 
+# Autora: Gemma Gariglio Viejo
+# Fecha: 02-06-2025
 # Dependencias: utils.R, procedrures.R, lmdme.R, deseq2.R
 #######################################################################
 
@@ -30,22 +30,11 @@ throw_control_calidad<-function(){
   
   get_box_recuentos(logCountsLong,"log")
   
-  cat("Generando PCA ...\n")
-  #get_pca_brutos()
-  
   cat("Filtrando los genes con recuentos nulos en todas las muestras...\n")
   print(dim(counts))
   counts<-filter_0()
   assign("counts",counts, envir = .GlobalEnv)
   print(dim(counts))
   
-  #logcounts<-get_logCounts()
-  
-  #logcountsloess <- normalizeCyclicLoess(logcounts)
-  #assign("logcountsloess",logcountsloess, envir = .GlobalEnv)
-  
-  #logCountsloessLong<-get_logCountsLong(logcountsloess)
-  
-  #get_box_recuentos(logCountsloessLong, "loess")
   
 }
