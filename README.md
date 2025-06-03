@@ -31,3 +31,7 @@ Matriz de recuentos (.csv, .xlsx):
 
 Se puede escribir la ruta o pulsar intro para que muestre el explorador 
 de archivos para seleccionar el fichero.
+
+En la carpeta /data contiene los ficheros con la matriz de recuentos, metadatos
+y anotaciones que son la base de este trabajo. La carpeta /results contiene los ficheros 
+que generan los distintos procesos que se ejecutan.
