@@ -1,0 +1,10 @@
+"cluster","estado","dominant_condition","max_emmean"
+"1","embryo","TBT:embryo",1.69117845531599
+"2","embryo","SER:embryo",0.38201349701766
+"3","embryo","CTR:embryo",0.149739013846149
+"1","provisioned_egg","SER:provisioned_egg",-0.472455267185397
+"2","provisioned_egg","TBT:provisioned_egg",1.19505714165597
+"3","provisioned_egg","CTR:provisioned_egg",1.28111590561048
+"1","unprovisioned_egg","SER:unprovisioned_egg",0.631029421581795
+"2","unprovisioned_egg","CTR:unprovisioned_egg",0.948787599568547
+"3","unprovisioned_egg","TBT:unprovisioned_egg",0.0835942851498052
